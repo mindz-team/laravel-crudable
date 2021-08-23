@@ -24,8 +24,7 @@ Publish config file
 
 # Usage
 
-Extend desired controller class with `CrudableController`. Class will extend your controller with methods `index`,`show`
-,`store`,`update`,`delete`.
+Extend desired controller class with `CrudableController`. Class will extend your controller with methods `index`,`show`,`store`,`update`,`delete`.
 
 Tu use it just create a route in desired location:
 
@@ -257,7 +256,7 @@ and `sort_direction` parameters to request
 
 Parameter `sort_direction` can have `asc` or `desc` value and `sort_by` is the name of base model field.
 
-Any more complex sorting like `sort by the count of users items` must be implemented via scope or pipeline filter.
+Any more complex sorting like *sort by the count of users items* must be implemented via scope or pipeline filter.
 
 # Change log
 
