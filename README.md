@@ -16,7 +16,7 @@ You can install package via composer. Add repository to your composer.json
 
 And run
 
-    composer install mindz-team/laravel-crudable
+    composer require mindz-team/laravel-crudable
 
 Publish config file
 
