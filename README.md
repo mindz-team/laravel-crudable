@@ -107,13 +107,13 @@ And another obvious rule it that returned class must extends `Illuminate\Http\Re
 ### Pagination
 
 All `index` method responses are by default paginated. Default number of items per page is `10`. This number can be
-adjustable by method `paginate`
+adjustable by method `pagination`
 
-    protected function paginate() {
+    protected function pagination() {
         return 20;
     }
 
-To disable pagination for controller `paginate` method should return `null` ,`false` or `0`. To disable pagination for
+To disable pagination for controller `pagination` method should return `null` ,`false` or `0`. To disable pagination for
 single request a query parameter `pagination` with `false` need to be passed.
 
 ### Meta
