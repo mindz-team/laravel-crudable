@@ -203,7 +203,7 @@ approach.
 To use this method there is a necessity to implement `Searchable` interface. It will force your model to
 implement `search` which returns an array of filter classes to build a query.
 
-class User extends Model implements SearchableWithScope {
+class User extends Model implements Searchable {
 
         public function search(): array
             return [
