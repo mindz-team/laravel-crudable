@@ -1,6 +1,7 @@
 {
     "name": "mindz-team/laravel-crudable",
     "description": "This is a package to create crudable controllers in no time",
+    "license": "MIT",
     "authors": [
         {
             "name": "roman.szymanski",
@@ -14,9 +15,6 @@
         "psr-4": {
             "Mindz\\LaravelCrudable\\": "src"
         }
-    },
-    "config": {
-        "sort-packages": true
     },
     "extra": {
         "laravel": {
