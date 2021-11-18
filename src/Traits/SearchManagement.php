@@ -45,7 +45,7 @@ trait SearchManagement
             $query->orderBy(request()->get('sort_by', 'id'), request()->get('sort_direction', 'desc'));
         }
 
-        if (method_exists($this, 'pagination') && !$this->pagination() || filter_var(request()->get('pagination'), FILTER_VALIDATE_BOOLEAN)) {
+        if ((method_exists($this, 'pagination') && !$this->pagination()) || (request()->has('pagination') && !filter_var(request()->get('pagination'), FILTER_VALIDATE_BOOLEAN))) {
             return $query->get();
         }
 
