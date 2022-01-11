@@ -205,7 +205,7 @@ implement `search` which returns an array of filter classes to build a query.
 
 class User extends Model implements Searchable {
 
-        public function search(): array
+        public function searchFilters(): array
             return [
                 'App\Filters\Active:class',
                 'App\Filters\NotDeleted:class',
