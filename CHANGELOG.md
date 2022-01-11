@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-crudable` will be documented in this file
 
-## 1.1.1 - 2022-01-10
+## 1.2 - 2022-01-10
 
 feat(): function name changed from search() to searchFilters() to avoid a conflict when using laravel-scout
 
