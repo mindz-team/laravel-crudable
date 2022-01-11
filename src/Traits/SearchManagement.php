@@ -33,7 +33,7 @@ trait SearchManagement
     {
         $query = app(Pipeline::class)
             ->send($query)
-            ->through($object->search())
+            ->through($object->searchFilters())
             ->thenReturn();
 
         return $this->defaultSortAndPagination($query);
