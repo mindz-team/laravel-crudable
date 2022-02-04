@@ -49,7 +49,13 @@ trait SearchManagement
             return $query->get();
         }
 
-        return $query->paginate(request()->get('length', (method_exists($this, 'pagination') ? $this->pagination() : $this->defaultPagination)), ['*'], 'page', request()->get('page', 0));
+        $query = $query->paginate(request()->get('length', (method_exists($this, 'pagination') ? $this->pagination() : $this->defaultPagination)), ['*'], 'page', request()->get('page', 0));
+
+        if (method_exists($this, 'withQueryString') && $this->withQueryString()) {
+            $query->withQueryString();
+        }
+
+        return $query;
     }
 
     protected function searchUsingScope($query)

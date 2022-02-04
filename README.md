@@ -116,6 +116,12 @@ adjustable by method `pagination`
 To disable pagination for controller `pagination` method should return `null` ,`false` or `0`. To disable pagination for
 single request a query parameter `pagination` with `false` need to be passed.
 
+To maintain pagination query string params you can use `withQueryString` method
+
+    protected function withQueryString() {
+        return true;
+    }
+
 ### Meta
 
 To collection response there is a possibility to add `meta` information with method `meta`
