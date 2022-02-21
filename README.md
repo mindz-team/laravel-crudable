@@ -104,6 +104,28 @@ method `getCollectionResource`
 
 And another obvious rule it that returned class must extends `Illuminate\Http\Resources\Json\JsonResource`
 
+#### Custom Header Resources
+
+This package also provides ability to customize resources using request headers. To return appropriate resource depends
+on provided header first what you need to configure `custom_header_resources` within `crudable.php` config file. To do this
+you must provide array with parameters: `header` and `namespace` like:
+
+    ...
+    'custom_header_resources' => [ 
+            [
+                'header' => 'X-Custom-Header',
+                'namespace' => "App\\Http\\ResourcesForCustomHeader"
+            ]
+    ]
+
+You can use as many custom resources as you want, but if you provide multiple custom resource headers during request then 
+resource related with first resolved header will be used.
+
+If you want to indicate custom resource or collection it is possible as in normal resource using custom resource and collection
+methods that must be named with use of your header name included. For example if you use as header `X-Custom-Header` then your 
+custom resource indicators must be named properly: `getXCustomHeaderObjectResource` and `getXCustomHeaderCollectionResource`.
+
+
 ### Pagination
 
 All `index` method responses are by default paginated. Default number of items per page is `10`. This number can be

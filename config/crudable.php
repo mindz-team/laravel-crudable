@@ -9,5 +9,6 @@ return [
     ],
     'resources' => [
         'namespace' => "App\\Http\\Resources"
-    ]
+    ],
+    'custom_header_resources' => []
 ];

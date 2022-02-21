@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -40,7 +41,11 @@ trait ResourceManagement
         }
 
         foreach ([true, false] as $searchForCollectionResource) {
-            if (($class = $this->getResourceClassFromDefaultLocation($searchForCollectionResource)) && class_exists($class)) {
+            $customHeaderResourceConfig = $this->getCustomHeaderResourceConfig();
+            $customHeaderResourceNamespace = Arr::accessible($customHeaderResourceConfig) ? $customHeaderResourceConfig['namespace'] : null;
+
+            if (($class = $this->getResourceClassFromDefaultLocation($searchForCollectionResource, $customHeaderResourceNamespace)) && class_exists($class)) {
+
                 return $class::collection($collection);
             }
         }
@@ -48,14 +53,35 @@ trait ResourceManagement
         return JsonResource::collection($collection);
     }
 
+    protected function getCustomHeaderResourceConfig(): array|null
+    {
+        if (!Arr::accessible(config('crudable.custom_header_resources')) || empty(config('crudable.custom_header_resources'))) {
+            return null;
+        }
+
+        foreach (config('crudable.custom_header_resources') as $key => $customHeaderResourceConfig) {
+            if (empty($customHeaderResourceConfig['header']) || empty($customHeaderResourceConfig['namespace']) || !request()->hasHeader($customHeaderResourceConfig['header'])) {
+                continue;
+            }
+
+            return $customHeaderResourceConfig;
+        }
+
+        return null;
+    }
+
     protected function getCollectionResourceMethodName()
     {
-        return 'getCollectionResource';
+        $customHeaderResourceConfig = $this->getCustomHeaderResourceConfig();
+
+        return !Arr::accessible($customHeaderResourceConfig) ? 'getCollectionResource' : 'get' . Str::of($customHeaderResourceConfig['header'])->camel()->ucfirst() . 'CollectionResource';
     }
 
     protected function getObjectResourceMethodName()
     {
-        return 'getObjectResource';
+        $customHeaderResourceConfig = $this->getCustomHeaderResourceConfig();
+
+        return !Arr::accessible($customHeaderResourceConfig) ? 'getObjectResource' : 'get' . Str::of($customHeaderResourceConfig['header'])->camel()->ucfirst() . 'ObjectResource';
     }
 
     private function returnValidResourceClassType(string $method)
@@ -67,10 +93,10 @@ trait ResourceManagement
         return true;
     }
 
-    private function getResourceClassFromDefaultLocation($collection = false)
+    private function getResourceClassFromDefaultLocation($collection = false, $namespace = null)
     {
         return sprintf("%s\\%s",
-            config('crudable.resources.namespace', "App\\Http\\Resources"),
+            $namespace ?? config('crudable.resources.namespace', "App\\Http\\Resources"),
             Str::ucfirst(class_basename($this->model())) . ($collection ? 'Collection' : '') . 'Resource'
         );
     }
