@@ -30,6 +30,12 @@ trait ResourceManagement
 
     private function getCollection($collection)
     {
+        if (request()->filled('resource')) {
+            $resource = $this->getSelectableResourceClassFromRequest();
+
+            return $resource::collection($collection);
+        }
+
         $methods = [$this->getCollectionResourceMethodName(), $this->getObjectResourceMethodName()];
 
         foreach ($methods as $method) {
@@ -77,6 +83,12 @@ trait ResourceManagement
 
     private function getObject($object)
     {
+        if (request()->filled('resource')) {
+            $resource = $this->getSelectableResourceClassFromRequest();
+
+            return new $resource($object);
+        }
+
         $method = $this->getObjectResourceMethodName();
 
         if (method_exists($this, $method) && $this->returnValidResourceClassType($method)) {
@@ -89,5 +101,20 @@ trait ResourceManagement
         }
 
         return new JsonResource($object);
+    }
+
+    private function getSelectableResourceClassFromRequest(): string
+    {
+        $requestedResource = Str::of(request()->input('resource'))->explode('.')
+            ->transform(fn($part) => Str::of($part)->camel()->ucfirst())
+            ->implode('\\');
+
+        $resource = config('crudable.resources.namespace', "App\\Http\\Resources\\") . '\\' . $requestedResource . 'Resource';
+
+        if (!is_subclass_of($resource, JsonResource::class)) {
+            throw new \Exception(sprintf('Resource %s doesn\'t exists', $resource));
+        }
+
+        return $resource;
     }
 }

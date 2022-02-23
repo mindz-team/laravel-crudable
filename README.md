@@ -104,6 +104,18 @@ method `getCollectionResource`
 
 And another obvious rule it that returned class must extends `Illuminate\Http\Resources\Json\JsonResource`
 
+#### Selectable resources
+
+Selectable resources provides a fluent way to manipulate response objects, it is something like a graphql way.
+
+To use selectable resource you should provide a query string with `resource` key like `GET /products?resource=customResourceFilter`.
+Or you can store it inside a different folder, then you should provide resource path using dot notation like `GET /products?resource=productsFiltersCatalog.customResourceFilter`.
+
+To create selectable resource you should create it normally within `App\Http\Resources` (if you didn't change
+resources namespace in `crudable.php` config file, if you change namespace then you should store it accordingly).
+
+As a name of class you should always provide `Resource` as a postfix, for example `ShortenedProductResource`.
+
 ### Pagination
 
 All `index` method responses are by default paginated. Default number of items per page is `10`. This number can be
