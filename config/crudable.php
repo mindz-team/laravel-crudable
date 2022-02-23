@@ -9,5 +9,8 @@ return [
     ],
     'resources' => [
         'namespace' => "App\\Http\\Resources"
-    ]
+    ],
+    'base_request' => [
+        'namespace' => "App\\Http\\Requests"
+    ],
 ];
