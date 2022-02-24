@@ -19,11 +19,11 @@ trait SearchManagement
         $object = new $model;
 
         if ($object instanceof Searchable) {
-            return $this->pipelineSearch($query, $object);
+            $query = $this->pipelineSearch($query, $object);
         }
 
         if ($object instanceof SearchableWithScope) {
-            return $this->searchUsingScope($query);
+            $query = $this->searchUsingScope($query);
         }
 
         return $this->defaultSortAndPagination($query);
@@ -31,12 +31,10 @@ trait SearchManagement
 
     protected function pipelineSearch($query, $object)
     {
-        $query = app(Pipeline::class)
+        return app(Pipeline::class)
             ->send($query)
             ->through($object->searchFilters())
             ->thenReturn();
-
-        return $this->defaultSortAndPagination($query);
     }
 
     private function defaultSortAndPagination($query)
@@ -60,6 +58,6 @@ trait SearchManagement
 
     protected function searchUsingScope($query)
     {
-        return $this->defaultSortAndPagination($query->search());
+        return $query->search();
     }
 }
