@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 trait RequestManagement
 {
-    private function applyRequest(): void
+    public function applyRequest(): void
     {
         $method = sprintf("get%sFromRequestClass", Str::ucfirst(Route::getCurrentRoute()->getActionMethod()));
 
