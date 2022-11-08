@@ -30,11 +30,11 @@ class CrudableController extends Controller
 
     public function store()
     {
-        $this->applyRequest();
-
         return DB::transaction(function () {
+            $request = $this->applyRequest() ?? request();
+
             return $this->retrieveResource(
-                $this->model()::create(request()->all())
+                $this->model()::create($request->all())
             );
         });
     }
@@ -50,13 +50,13 @@ class CrudableController extends Controller
 
     public function update($objectId)
     {
-        $this->applyRequest();
+        $request = $this->applyRequest() ?? request();
 
         $object = $this->model()::findOrFail($objectId);
 
-        return DB::transaction(function () use ($object) {
+        return DB::transaction(function () use ($object, $request) {
             return $this->retrieveResource(
-                tap($object)->update(request()->all())
+                tap($object)->update($request->all())
             );
         });
     }

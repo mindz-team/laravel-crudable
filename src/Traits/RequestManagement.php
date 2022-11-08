@@ -8,18 +8,19 @@ use Illuminate\Support\Str;
 
 trait RequestManagement
 {
-    public function applyRequest(): void
+    public function applyRequest(): null|FormRequest
     {
         $method = sprintf("get%sFromRequestClass", Str::ucfirst(Route::getCurrentRoute()->getActionMethod()));
 
         if (method_exists($this, $method) && $this->returnValidRequestClassType($method)) {
-            app($this->$method());
-            return;
+            return app($this->$method());
         }
 
         if (($class = $this->getRequestClassFromDefaultLocation()) && class_exists($class)) {
-            app($class);
+            return app($class);
         }
+
+        return null;
     }
 
     private function returnValidRequestClassType(string $method): bool
