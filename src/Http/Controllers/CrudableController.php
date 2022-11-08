@@ -30,9 +30,9 @@ class CrudableController extends Controller
 
     public function store()
     {
-        $request = $this->applyRequest() ?? request();
+        return DB::transaction(function () {
+            $request = $this->applyRequest() ?? request();
 
-        return DB::transaction(function () use ($request) {
             return $this->retrieveResource(
                 $this->model()::create($request->all())
             );
