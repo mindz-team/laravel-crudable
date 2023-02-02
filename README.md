@@ -291,4 +291,4 @@ Author: Roman Szymański [r.szymanski@mindz.it](mailto:r.szymanski@mindz.it)
 
 # License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information
