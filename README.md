@@ -276,6 +276,12 @@ Parameter `sort_direction` can have `asc` or `desc` value and `sort_by` is the n
 
 Any more complex sorting like *sort by the count of users items* must be implemented via scope or pipeline filter.
 
+#### Base request
+
+If you want to execute additional form request that will be executed **before every** single `FormRequest` you need to 
+create a `BaseRequest` class within `App\Http\Requests` folder. Of course there is possibility to change `BaseRequest` 
+location using `crudable.php` config file. 
+
 # Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.

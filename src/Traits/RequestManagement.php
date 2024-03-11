@@ -12,6 +12,10 @@ trait RequestManagement
     {
         $method = sprintf("get%sFromRequestClass", Str::ucfirst(Route::getCurrentRoute()->getActionMethod()));
 
+        if (($baseRequestClass = $this->getBaseRequestClass()) && class_exists($baseRequestClass)) {
+            app($baseRequestClass);
+        }
+
         if (method_exists($this, $method) && $this->returnValidRequestClassType($method)) {
             return app($this->$method());
         }
@@ -39,5 +43,10 @@ trait RequestManagement
             Str::plural(class_basename($this->model())),
             Str::ucfirst(Route::getCurrentRoute()->getActionMethod()) . class_basename($this->model()) . 'Request'
         );
+    }
+
+    private function getBaseRequestClass()
+    {
+        return sprintf("%s\\%s", config('crudable.base_request.namespace', "App\\Http\\Requests"), 'BaseRequest');
     }
 }
