@@ -39,7 +39,7 @@ trait SearchManagement
 
     private function defaultSortAndPagination($query)
     {
-        if (request()->get('sort_by') && request()->get('sort_direction')) {
+        if (!$this->alreadySorted($query) && request()->get('sort_by') && request()->get('sort_direction')) {
             $query->orderBy(request()->get('sort_by', 'id'), request()->get('sort_direction', 'desc'));
         }
 
@@ -59,5 +59,12 @@ trait SearchManagement
     protected function searchUsingScope($query)
     {
         return $query->search();
+    }
+
+    private function alreadySorted(Builder $query): bool
+    {
+        $baseOrder = $query->getQuery();
+
+        return isset($baseOrder) && !empty($baseOrder->orders);
     }
 }
