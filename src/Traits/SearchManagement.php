@@ -2,6 +2,7 @@
 
 namespace Mindz\LaravelCrudable\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Pipeline;
 use Mindz\LaravelCrudable\Http\Interfaces\Searchable;
 use Mindz\LaravelCrudable\Http\Interfaces\SearchableWithScope;
